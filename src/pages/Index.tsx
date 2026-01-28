@@ -1,49 +1,146 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { 
-  BookOpen, Cpu, Trophy, Film, Music, Newspaper, 
-  Rocket, Heart, Star, TrendingUp, Crown, ArrowRight,
-  Search, Sparkles, Globe, Zap, ChevronRight
-} from 'lucide-react';
+import { BookOpen, Cpu, Trophy, Film, Music, Newspaper, Rocket, Heart, Star, TrendingUp, Crown, ArrowRight, Search, Sparkles, Globe, Zap, ChevronRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
 import { useAuth } from '@/contexts/AuthContext';
 
 // Categories with real links
-const categories = [
-  { id: '1', name: 'Space & Universe', slug: 'space', icon: Rocket, color: 'from-indigo-500 to-purple-600', description: 'Explore the cosmos and solar system', count: 12, url: 'https://www.solarsystemscope.com/' },
-  { id: '2', name: 'AI & Technology', slug: 'ai', icon: Cpu, color: 'from-violet-500 to-purple-600', description: 'AI tools and image generators', count: 15, premium: true },
-  { id: '3', name: 'Games', slug: 'games', icon: Trophy, color: 'from-emerald-500 to-green-600', description: 'Free online games and MMORPGs', count: 25 },
-  { id: '4', name: 'Entertainment', slug: 'entertainment', icon: Film, color: 'from-pink-500 to-rose-600', description: 'Anime, movies, and shows', count: 45 },
-  { id: '5', name: 'Health & Wellness', slug: 'health', icon: Heart, color: 'from-red-500 to-pink-600', description: 'Health information and tips', count: 18 },
-  { id: '6', name: 'Food & Recipes', slug: 'food', icon: BookOpen, color: 'from-orange-500 to-amber-600', description: 'Delicious recipes from around the world', count: 30 },
-  { id: '7', name: 'Knowledge & Studies', slug: 'knowledge', icon: Newspaper, color: 'from-cyan-500 to-blue-600', description: 'Learn anything with powerful tools', count: 22 },
-];
+const categories = [{
+  id: '1',
+  name: 'Space & Universe',
+  slug: 'space',
+  icon: Rocket,
+  color: 'from-indigo-500 to-purple-600',
+  description: 'Explore the cosmos and solar system',
+  count: 12,
+  url: 'https://www.solarsystemscope.com/'
+}, {
+  id: '2',
+  name: 'AI & Technology',
+  slug: 'ai',
+  icon: Cpu,
+  color: 'from-violet-500 to-purple-600',
+  description: 'AI tools and image generators',
+  count: 15,
+  premium: true
+}, {
+  id: '3',
+  name: 'Games',
+  slug: 'games',
+  icon: Trophy,
+  color: 'from-emerald-500 to-green-600',
+  description: 'Free online games and MMORPGs',
+  count: 25
+}, {
+  id: '4',
+  name: 'Entertainment',
+  slug: 'entertainment',
+  icon: Film,
+  color: 'from-pink-500 to-rose-600',
+  description: 'Anime, movies, and shows',
+  count: 45
+}, {
+  id: '5',
+  name: 'Health & Wellness',
+  slug: 'health',
+  icon: Heart,
+  color: 'from-red-500 to-pink-600',
+  description: 'Health information and tips',
+  count: 18
+}, {
+  id: '6',
+  name: 'Food & Recipes',
+  slug: 'food',
+  icon: BookOpen,
+  color: 'from-orange-500 to-amber-600',
+  description: 'Delicious recipes from around the world',
+  count: 30
+}, {
+  id: '7',
+  name: 'Knowledge & Studies',
+  slug: 'knowledge',
+  icon: Newspaper,
+  color: 'from-cyan-500 to-blue-600',
+  description: 'Learn anything with powerful tools',
+  count: 22
+}];
 
 // Featured links with real URLs
-const featuredLinks = [
-  { id: '1', title: 'Solar System Scope', description: 'Interactive 3D encyclopedia of planets and space', image: 'https://images.unsplash.com/photo-1614732414444-096e5f1122d5?w=400', category: 'Space', url: 'https://www.solarsystemscope.com/', clicks: 45000 },
-  { id: '2', title: 'NoteGPT AI Chat', description: 'Free AI assistant for notes and conversations', image: 'https://images.unsplash.com/photo-1677442136019-21780ecad995?w=400', category: 'AI', premium: true, url: 'https://notegpt.io/ai-chat', clicks: 23000 },
-  { id: '3', title: 'Free AI Image Generator', description: 'Create stunning AI art for free', image: 'https://images.unsplash.com/photo-1686191128892-3b37add64d8d?w=400', category: 'AI', premium: true, url: 'https://www.ryrob.com/ai-image-generator/', clicks: 18500 },
-  { id: '4', title: 'Anime Planet', description: 'Watch anime and read manga for free', image: 'https://images.unsplash.com/photo-1578632767115-351597cf2477?w=400', category: 'Entertainment', url: 'https://www.anime-planet.com/', clicks: 67000 },
-];
-
-const trendingLinks = [
-  { id: '1', title: 'WolframAlpha - Computational Knowledge', url: 'https://www.wolframalpha.com/', clicks: 89000 },
-  { id: '2', title: 'Lucix AI - Image Generator', url: 'https://play.google.com/store/search?q=lucix+ai&c=apps', clicks: 34000, premium: true },
-  { id: '3', title: 'AllRecipes - Best Food Recipes', url: 'https://www.allrecipes.com/', clicks: 56000 },
-  { id: '4', title: 'Mayo Clinic - Health Guide', url: 'https://www.mayoclinic.org/', clicks: 78000 },
-  { id: '5', title: 'RuneScape - Free MMORPG', url: 'https://www.runescape.com/', clicks: 45000 },
-  { id: '6', title: 'Armor Games - Free Games', url: 'https://armorgames.com/', clicks: 32000 },
-];
-
+const featuredLinks = [{
+  id: '1',
+  title: 'Solar System Scope',
+  description: 'Interactive 3D encyclopedia of planets and space',
+  image: 'https://images.unsplash.com/photo-1614732414444-096e5f1122d5?w=400',
+  category: 'Space',
+  url: 'https://www.solarsystemscope.com/',
+  clicks: 45000
+}, {
+  id: '2',
+  title: 'NoteGPT AI Chat',
+  description: 'Free AI assistant for notes and conversations',
+  image: 'https://images.unsplash.com/photo-1677442136019-21780ecad995?w=400',
+  category: 'AI',
+  premium: true,
+  url: 'https://notegpt.io/ai-chat',
+  clicks: 23000
+}, {
+  id: '3',
+  title: 'Free AI Image Generator',
+  description: 'Create stunning AI art for free',
+  image: 'https://images.unsplash.com/photo-1686191128892-3b37add64d8d?w=400',
+  category: 'AI',
+  premium: true,
+  url: 'https://www.ryrob.com/ai-image-generator/',
+  clicks: 18500
+}, {
+  id: '4',
+  title: 'Anime Planet',
+  description: 'Watch anime and read manga for free',
+  image: 'https://images.unsplash.com/photo-1578632767115-351597cf2477?w=400',
+  category: 'Entertainment',
+  url: 'https://www.anime-planet.com/',
+  clicks: 67000
+}];
+const trendingLinks = [{
+  id: '1',
+  title: 'WolframAlpha - Computational Knowledge',
+  url: 'https://www.wolframalpha.com/',
+  clicks: 89000
+}, {
+  id: '2',
+  title: 'Lucix AI - Image Generator',
+  url: 'https://play.google.com/store/search?q=lucix+ai&c=apps',
+  clicks: 34000,
+  premium: true
+}, {
+  id: '3',
+  title: 'AllRecipes - Best Food Recipes',
+  url: 'https://www.allrecipes.com/',
+  clicks: 56000
+}, {
+  id: '4',
+  title: 'Mayo Clinic - Health Guide',
+  url: 'https://www.mayoclinic.org/',
+  clicks: 78000
+}, {
+  id: '5',
+  title: 'RuneScape - Free MMORPG',
+  url: 'https://www.runescape.com/',
+  clicks: 45000
+}, {
+  id: '6',
+  title: 'Armor Games - Free Games',
+  url: 'https://armorgames.com/',
+  clicks: 32000
+}];
 export default function Index() {
-  const { user } = useAuth();
+  const {
+    user
+  } = useAuth();
   const [searchQuery, setSearchQuery] = useState('');
-
-  return (
-    <div className="min-h-screen bg-background">
+  return <div className="min-h-screen bg-background">
       {/* Navbar */}
       <header className="sticky top-0 z-50 w-full border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
         <div className="container max-w-7xl mx-auto flex h-16 items-center justify-between px-4">
@@ -51,7 +148,7 @@ export default function Index() {
             <div className="h-10 w-10 rounded-xl bg-gradient-to-br from-primary to-accent flex items-center justify-center shadow-lg">
               <Globe className="h-6 w-6 text-primary-foreground" />
             </div>
-            <span className="font-display font-bold text-2xl bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">Lapi</span>
+            <span className="font-display font-bold text-2xl bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">​Fluxo</span>
           </Link>
 
           <div className="hidden md:flex items-center gap-6">
@@ -64,12 +161,9 @@ export default function Index() {
           </div>
 
           <div className="flex items-center gap-3">
-            {user ? (
-              <Link to="/profile">
+            {user ? <Link to="/profile">
                 <Button variant="soft" size="sm">My Account</Button>
-              </Link>
-            ) : (
-              <>
+              </Link> : <>
                 <Link to="/auth">
                   <Button variant="ghost" size="sm">Sign in</Button>
                 </Link>
@@ -79,8 +173,7 @@ export default function Index() {
                     Join Free
                   </Button>
                 </Link>
-              </>
-            )}
+              </>}
           </div>
         </div>
       </header>
@@ -111,12 +204,7 @@ export default function Index() {
             {/* Search Bar */}
             <div className="relative max-w-xl mx-auto mb-8">
               <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
-              <Input
-                placeholder="Search for books, AI tools, sports, and more..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="pl-12 pr-4 h-14 text-lg rounded-2xl border-2 border-border focus:border-primary shadow-lg"
-              />
+              <Input placeholder="Search for books, AI tools, sports, and more..." value={searchQuery} onChange={e => setSearchQuery(e.target.value)} className="pl-12 pr-4 h-14 text-lg rounded-2xl border-2 border-border focus:border-primary shadow-lg" />
               <Button className="absolute right-2 top-1/2 -translate-y-1/2 rounded-xl" size="sm">
                 Search
               </Button>
@@ -146,27 +234,17 @@ export default function Index() {
         </div>
 
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-7 gap-4">
-          {categories.map((category) => (
-            <a
-              key={category.id}
-              href={category.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="group relative bg-card border border-border rounded-2xl p-6 hover:shadow-xl hover:border-primary/30 transition-all duration-300 hover:-translate-y-1"
-            >
-              {category.premium && (
-                <Badge className="absolute -top-2 -right-2 bg-gradient-to-r from-amber-500 to-orange-500 text-white border-0">
+          {categories.map(category => <a key={category.id} href={category.url} target="_blank" rel="noopener noreferrer" className="group relative bg-card border border-border rounded-2xl p-6 hover:shadow-xl hover:border-primary/30 transition-all duration-300 hover:-translate-y-1">
+              {category.premium && <Badge className="absolute -top-2 -right-2 bg-gradient-to-r from-amber-500 to-orange-500 text-white border-0">
                   <Crown className="h-3 w-3 mr-1" />
                   Premium
-                </Badge>
-              )}
+                </Badge>}
               <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${category.color} flex items-center justify-center mb-4 group-hover:scale-110 transition-transform`}>
                 <category.icon className="h-6 w-6 text-white" />
               </div>
               <h3 className="font-semibold text-sm mb-1 group-hover:text-primary transition-colors">{category.name}</h3>
               <p className="text-xs text-muted-foreground">{category.count} links</p>
-            </a>
-          ))}
+            </a>)}
         </div>
       </section>
 
@@ -189,26 +267,13 @@ export default function Index() {
           </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {featuredLinks.map((link) => (
-              <a
-                key={link.id}
-                href={link.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="group bg-card border border-border rounded-2xl overflow-hidden hover:shadow-xl hover:border-primary/30 transition-all duration-300 block"
-              >
+            {featuredLinks.map(link => <a key={link.id} href={link.url} target="_blank" rel="noopener noreferrer" className="group bg-card border border-border rounded-2xl overflow-hidden hover:shadow-xl hover:border-primary/30 transition-all duration-300 block">
                 <div className="relative aspect-video overflow-hidden">
-                  <img
-                    src={link.image}
-                    alt={link.title}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                  />
-                  {link.premium && (
-                    <Badge className="absolute top-3 left-3 bg-gradient-to-r from-amber-500 to-orange-500 text-white border-0">
+                  <img src={link.image} alt={link.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                  {link.premium && <Badge className="absolute top-3 left-3 bg-gradient-to-r from-amber-500 to-orange-500 text-white border-0">
                       <Crown className="h-3 w-3 mr-1" />
                       Premium
-                    </Badge>
-                  )}
+                    </Badge>}
                   <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
                 </div>
                 <div className="p-4">
@@ -225,8 +290,7 @@ export default function Index() {
                     </span>
                   </div>
                 </div>
-              </a>
-            ))}
+              </a>)}
           </div>
         </div>
       </section>
@@ -244,14 +308,7 @@ export default function Index() {
             </div>
 
             <div className="bg-card border border-border rounded-2xl overflow-hidden">
-              {trendingLinks.map((link, index) => (
-                <a
-                  key={link.id}
-                  href={link.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center gap-4 p-4 border-b border-border last:border-0 hover:bg-secondary/50 transition-colors"
-                >
+              {trendingLinks.map((link, index) => <a key={link.id} href={link.url} target="_blank" rel="noopener noreferrer" className="flex items-center gap-4 p-4 border-b border-border last:border-0 hover:bg-secondary/50 transition-colors">
                   <span className="text-2xl font-bold text-muted-foreground w-8">{index + 1}</span>
                   <div className="flex-1">
                     <h3 className="font-medium flex items-center gap-2">
@@ -261,8 +318,7 @@ export default function Index() {
                     <span className="text-sm text-muted-foreground">{(link.clicks / 1000).toFixed(1)}k clicks</span>
                   </div>
                   <ChevronRight className="h-5 w-5 text-muted-foreground" />
-                </a>
-              ))}
+                </a>)}
             </div>
           </div>
 
@@ -295,14 +351,12 @@ export default function Index() {
                 </div>
                 
                 <ul className="space-y-3 mb-6">
-                  {['AI Image Generator Access', 'Space & Universe Premium', 'Exclusive AI Tools', 'Ad-free experience'].map((feature) => (
-                    <li key={feature} className="flex items-center gap-2 text-sm">
+                  {['AI Image Generator Access', 'Space & Universe Premium', 'Exclusive AI Tools', 'Ad-free experience'].map(feature => <li key={feature} className="flex items-center gap-2 text-sm">
                       <div className="h-5 w-5 rounded-full bg-primary/10 flex items-center justify-center">
                         <Heart className="h-3 w-3 text-primary" />
                       </div>
                       {feature}
-                    </li>
-                  ))}
+                    </li>)}
                 </ul>
                 <Link to="/premium">
                   <Button className="w-full gap-2" size="lg">
@@ -361,6 +415,5 @@ export default function Index() {
           </div>
         </div>
       </footer>
-    </div>
-  );
+    </div>;
 }
