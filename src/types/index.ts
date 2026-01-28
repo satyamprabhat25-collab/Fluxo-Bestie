@@ -1,15 +1,69 @@
+// Link/Content types
+export interface Category {
+  id: string;
+  name: string;
+  slug: string;
+  icon: string;
+  description: string;
+  color: string;
+  link_count?: number;
+}
+
+export interface ContentLink {
+  id: string;
+  title: string;
+  description: string;
+  url: string;
+  image_url?: string;
+  category_id: string;
+  is_premium: boolean;
+  is_featured: boolean;
+  clicks: number;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface Collection {
+  id: string;
+  user_id: string;
+  name: string;
+  description?: string;
+  is_public: boolean;
+  created_at: string;
+}
+
+export interface SavedLink {
+  id: string;
+  user_id: string;
+  link_id: string;
+  collection_id?: string;
+  created_at: string;
+}
+
+// User types
 export interface Profile {
   id: string;
   user_id: string;
   username: string;
   display_name: string;
-  bio: string;
   avatar_url: string | null;
+  bio: string | null;
   is_verified: boolean;
+  is_premium?: boolean;
   created_at: string;
   updated_at: string;
 }
 
+export type AppRole = 'admin' | 'moderator' | 'user';
+
+export interface UserRole {
+  id: string;
+  user_id: string;
+  role: AppRole;
+  created_at: string;
+}
+
+// Legacy types for compatibility (can be removed later)
 export interface Post {
   id: string;
   user_id: string;
@@ -79,13 +133,4 @@ export interface Report {
   status: 'pending' | 'reviewed' | 'resolved' | 'dismissed';
   created_at: string;
   updated_at: string;
-}
-
-export type AppRole = 'admin' | 'moderator' | 'user';
-
-export interface UserRole {
-  id: string;
-  user_id: string;
-  role: AppRole;
-  created_at: string;
 }
