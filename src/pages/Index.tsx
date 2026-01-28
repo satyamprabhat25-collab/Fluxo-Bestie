@@ -10,30 +10,32 @@ import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
 import { useAuth } from '@/contexts/AuthContext';
 
-// Sample categories - you'll replace these with database data later
+// Categories with real links
 const categories = [
-  { id: '1', name: 'Books & Reading', slug: 'books', icon: BookOpen, color: 'from-amber-500 to-orange-600', description: 'Discover amazing books and reading resources', count: 156 },
-  { id: '2', name: 'AI & Technology', slug: 'ai', icon: Cpu, color: 'from-violet-500 to-purple-600', description: 'Latest AI tools and tech innovations', count: 89, premium: true },
-  { id: '3', name: 'Sports', slug: 'sports', icon: Trophy, color: 'from-emerald-500 to-green-600', description: 'Cricket, football, and more sports content', count: 234 },
-  { id: '4', name: 'Entertainment', slug: 'entertainment', icon: Film, color: 'from-pink-500 to-rose-600', description: 'Movies, shows, and viral content', count: 312 },
-  { id: '5', name: 'Music', slug: 'music', icon: Music, color: 'from-cyan-500 to-blue-600', description: 'Discover new music and playlists', count: 178 },
-  { id: '6', name: 'News & Trending', slug: 'news', icon: Newspaper, color: 'from-slate-500 to-gray-600', description: 'Stay updated with latest news', count: 445 },
+  { id: '1', name: 'Space & Universe', slug: 'space', icon: Rocket, color: 'from-indigo-500 to-purple-600', description: 'Explore the cosmos and solar system', count: 12, url: 'https://www.solarsystemscope.com/' },
+  { id: '2', name: 'AI & Technology', slug: 'ai', icon: Cpu, color: 'from-violet-500 to-purple-600', description: 'AI tools and image generators', count: 15, premium: true },
+  { id: '3', name: 'Games', slug: 'games', icon: Trophy, color: 'from-emerald-500 to-green-600', description: 'Free online games and MMORPGs', count: 25 },
+  { id: '4', name: 'Entertainment', slug: 'entertainment', icon: Film, color: 'from-pink-500 to-rose-600', description: 'Anime, movies, and shows', count: 45 },
+  { id: '5', name: 'Health & Wellness', slug: 'health', icon: Heart, color: 'from-red-500 to-pink-600', description: 'Health information and tips', count: 18 },
+  { id: '6', name: 'Food & Recipes', slug: 'food', icon: BookOpen, color: 'from-orange-500 to-amber-600', description: 'Delicious recipes from around the world', count: 30 },
+  { id: '7', name: 'Knowledge & Studies', slug: 'knowledge', icon: Newspaper, color: 'from-cyan-500 to-blue-600', description: 'Learn anything with powerful tools', count: 22 },
 ];
 
-// Sample featured links
+// Featured links with real URLs
 const featuredLinks = [
-  { id: '1', title: 'Best Books of 2024', description: 'Curated list of must-read books this year', image: 'https://images.unsplash.com/photo-1512820790803-83ca734da794?w=400', category: 'Books', premium: false, clicks: 12500 },
-  { id: '2', title: 'ChatGPT Mastery Guide', description: 'Complete guide to mastering AI prompts', image: 'https://images.unsplash.com/photo-1677442136019-21780ecad995?w=400', category: 'AI', premium: true, clicks: 8900 },
-  { id: '3', title: 'IPL 2024 Schedule', description: 'Complete cricket schedule and stats', image: 'https://images.unsplash.com/photo-1531415074968-036ba1b575da?w=400', category: 'Sports', clicks: 45000 },
-  { id: '4', title: 'Top Netflix Shows', description: 'Trending shows you must watch', image: 'https://images.unsplash.com/photo-1574375927938-d5a98e8ffe85?w=400', category: 'Entertainment', clicks: 23000 },
+  { id: '1', title: 'Solar System Scope', description: 'Interactive 3D encyclopedia of planets and space', image: 'https://images.unsplash.com/photo-1614732414444-096e5f1122d5?w=400', category: 'Space', url: 'https://www.solarsystemscope.com/', clicks: 45000 },
+  { id: '2', title: 'NoteGPT AI Chat', description: 'Free AI assistant for notes and conversations', image: 'https://images.unsplash.com/photo-1677442136019-21780ecad995?w=400', category: 'AI', premium: true, url: 'https://notegpt.io/ai-chat', clicks: 23000 },
+  { id: '3', title: 'Free AI Image Generator', description: 'Create stunning AI art for free', image: 'https://images.unsplash.com/photo-1686191128892-3b37add64d8d?w=400', category: 'AI', premium: true, url: 'https://www.ryrob.com/ai-image-generator/', clicks: 18500 },
+  { id: '4', title: 'Anime Planet', description: 'Watch anime and read manga for free', image: 'https://images.unsplash.com/photo-1578632767115-351597cf2477?w=400', category: 'Entertainment', url: 'https://www.anime-planet.com/', clicks: 67000 },
 ];
 
 const trendingLinks = [
-  { id: '1', title: 'Free Kindle Books This Week', clicks: 5600 },
-  { id: '2', title: 'AI Art Generator - Free', clicks: 4200, premium: true },
-  { id: '3', title: 'Live Cricket Scores', clicks: 8900 },
-  { id: '4', title: 'Viral Videos Today', clicks: 3400 },
-  { id: '5', title: 'Top Spotify Playlists', clicks: 2800 },
+  { id: '1', title: 'WolframAlpha - Computational Knowledge', url: 'https://www.wolframalpha.com/', clicks: 89000 },
+  { id: '2', title: 'Lucix AI - Image Generator', url: 'https://play.google.com/store/search?q=lucix+ai&c=apps', clicks: 34000, premium: true },
+  { id: '3', title: 'AllRecipes - Best Food Recipes', url: 'https://www.allrecipes.com/', clicks: 56000 },
+  { id: '4', title: 'Mayo Clinic - Health Guide', url: 'https://www.mayoclinic.org/', clicks: 78000 },
+  { id: '5', title: 'RuneScape - Free MMORPG', url: 'https://www.runescape.com/', clicks: 45000 },
+  { id: '6', title: 'Armor Games - Free Games', url: 'https://armorgames.com/', clicks: 32000 },
 ];
 
 export default function Index() {
@@ -143,11 +145,13 @@ export default function Index() {
           </Button>
         </div>
 
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-7 gap-4">
           {categories.map((category) => (
-            <Link
+            <a
               key={category.id}
-              to={`/category/${category.slug}`}
+              href={category.url}
+              target="_blank"
+              rel="noopener noreferrer"
               className="group relative bg-card border border-border rounded-2xl p-6 hover:shadow-xl hover:border-primary/30 transition-all duration-300 hover:-translate-y-1"
             >
               {category.premium && (
@@ -161,7 +165,7 @@ export default function Index() {
               </div>
               <h3 className="font-semibold text-sm mb-1 group-hover:text-primary transition-colors">{category.name}</h3>
               <p className="text-xs text-muted-foreground">{category.count} links</p>
-            </Link>
+            </a>
           ))}
         </div>
       </section>
@@ -186,9 +190,12 @@ export default function Index() {
 
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
             {featuredLinks.map((link) => (
-              <article
+              <a
                 key={link.id}
-                className="group bg-card border border-border rounded-2xl overflow-hidden hover:shadow-xl hover:border-primary/30 transition-all duration-300"
+                href={link.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group bg-card border border-border rounded-2xl overflow-hidden hover:shadow-xl hover:border-primary/30 transition-all duration-300 block"
               >
                 <div className="relative aspect-video overflow-hidden">
                   <img
@@ -213,12 +220,12 @@ export default function Index() {
                       <TrendingUp className="h-3 w-3" />
                       {(link.clicks / 1000).toFixed(1)}k clicks
                     </span>
-                    <Button size="sm" variant="soft" className="gap-1">
+                    <span className="text-sm font-medium text-primary flex items-center gap-1">
                       Visit <ArrowRight className="h-3 w-3" />
-                    </Button>
+                    </span>
                   </div>
                 </div>
-              </article>
+              </a>
             ))}
           </div>
         </div>
@@ -238,9 +245,11 @@ export default function Index() {
 
             <div className="bg-card border border-border rounded-2xl overflow-hidden">
               {trendingLinks.map((link, index) => (
-                <Link
+                <a
                   key={link.id}
-                  to={`/link/${link.id}`}
+                  href={link.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="flex items-center gap-4 p-4 border-b border-border last:border-0 hover:bg-secondary/50 transition-colors"
                 >
                   <span className="text-2xl font-bold text-muted-foreground w-8">{index + 1}</span>
@@ -252,7 +261,7 @@ export default function Index() {
                     <span className="text-sm text-muted-foreground">{(link.clicks / 1000).toFixed(1)}k clicks</span>
                   </div>
                   <ChevronRight className="h-5 w-5 text-muted-foreground" />
-                </Link>
+                </a>
               ))}
             </div>
           </div>
@@ -265,11 +274,28 @@ export default function Index() {
                   <Crown className="h-7 w-7 text-white" />
                 </div>
                 <h3 className="font-display font-bold text-xl mb-2">Unlock Premium</h3>
-                <p className="text-muted-foreground text-sm mb-6">
-                  Get access to exclusive links, AI tools, premium books, and more curated content.
+                <p className="text-muted-foreground text-sm mb-4">
+                  Get access to exclusive AI tools, image generators, and premium content.
                 </p>
+                
+                {/* Pricing */}
+                <div className="space-y-2 mb-6 p-4 bg-secondary/50 rounded-xl">
+                  <div className="flex justify-between items-center">
+                    <span className="text-sm">Monthly</span>
+                    <span className="font-bold text-primary">$5/month</span>
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <span className="text-sm">Quarterly</span>
+                    <span className="font-bold text-primary">$10/3 months</span>
+                  </div>
+                  <div className="flex justify-between items-center border-t border-border pt-2">
+                    <span className="text-sm font-medium">Yearly <Badge variant="secondary" className="ml-1 text-xs">Best Value</Badge></span>
+                    <span className="font-bold text-primary">$20/year</span>
+                  </div>
+                </div>
+                
                 <ul className="space-y-3 mb-6">
-                  {['Exclusive premium links', 'Early access to new content', 'Ad-free experience', 'Priority support'].map((feature) => (
+                  {['AI Image Generator Access', 'Space & Universe Premium', 'Exclusive AI Tools', 'Ad-free experience'].map((feature) => (
                     <li key={feature} className="flex items-center gap-2 text-sm">
                       <div className="h-5 w-5 rounded-full bg-primary/10 flex items-center justify-center">
                         <Heart className="h-3 w-3 text-primary" />
@@ -278,10 +304,12 @@ export default function Index() {
                     </li>
                   ))}
                 </ul>
-                <Button className="w-full gap-2" size="lg">
-                  <Sparkles className="h-4 w-4" />
-                  Get Premium
-                </Button>
+                <Link to="/premium">
+                  <Button className="w-full gap-2" size="lg">
+                    <Sparkles className="h-4 w-4" />
+                    Get Premium Now
+                  </Button>
+                </Link>
               </div>
             </div>
           </div>
