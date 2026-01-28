@@ -231,3 +231,14 @@
 ::-webkit-scrollbar-thumb:hover {
   background: hsl(var(--muted-foreground) / 0.5);
 }
+
+/* --- ADDED FIX TO HIDE LOVABLE LOGO --- */
+#lovable-badge, 
+.lovable-badge,
+[id*="lovable-badge"],
+.fixed.bottom-4.right-4.z-50 {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
