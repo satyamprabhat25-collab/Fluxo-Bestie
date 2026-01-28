@@ -6,63 +6,64 @@ import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { useAuth } from '@/contexts/AuthContext';
 import { toast } from 'sonner';
-
-const plans = [
-  {
-    id: 'monthly',
-    name: 'Monthly',
-    price: 5,
-    period: 'month',
-    description: 'Perfect for trying out premium features',
-    popular: false,
-  },
-  {
-    id: 'quarterly',
-    name: 'Quarterly',
-    price: 10,
-    period: '3 months',
-    description: 'Save 33% compared to monthly',
-    popular: false,
-  },
-  {
-    id: 'yearly',
-    name: 'Yearly',
-    price: 20,
-    period: 'year',
-    description: 'Best value - save 67%!',
-    popular: true,
-  },
-];
-
-const features = [
-  { icon: Zap, title: 'AI Image Generator', description: 'Create unlimited AI-generated images' },
-  { icon: Star, title: 'Premium Links', description: 'Access exclusive curated content' },
-  { icon: Shield, title: 'Ad-Free Experience', description: 'Browse without any interruptions' },
-  { icon: Globe, title: 'Early Access', description: 'Get new features before everyone else' },
-];
-
+const plans = [{
+  id: 'monthly',
+  name: 'Monthly',
+  price: 5,
+  period: 'month',
+  description: 'Perfect for trying out premium features',
+  popular: false
+}, {
+  id: 'quarterly',
+  name: 'Quarterly',
+  price: 10,
+  period: '3 months',
+  description: 'Save 33% compared to monthly',
+  popular: false
+}, {
+  id: 'yearly',
+  name: 'Yearly',
+  price: 20,
+  period: 'year',
+  description: 'Best value - save 67%!',
+  popular: true
+}];
+const features = [{
+  icon: Zap,
+  title: 'AI Image Generator',
+  description: 'Create unlimited AI-generated images'
+}, {
+  icon: Star,
+  title: 'Premium Links',
+  description: 'Access exclusive curated content'
+}, {
+  icon: Shield,
+  title: 'Ad-Free Experience',
+  description: 'Browse without any interruptions'
+}, {
+  icon: Globe,
+  title: 'Early Access',
+  description: 'Get new features before everyone else'
+}];
 export default function Premium() {
-  const { user } = useAuth();
+  const {
+    user
+  } = useAuth();
   const [selectedPlan, setSelectedPlan] = useState('yearly');
   const [isLoading, setIsLoading] = useState(false);
-
   const handleSubscribe = async (planId: string) => {
     if (!user) {
       toast.error('Please sign in to subscribe');
       return;
     }
-
     setIsLoading(true);
-    
+
     // TODO: Integrate Razorpay here
     // For now, show a message
     toast.info('Payment integration coming soon! Razorpay will be integrated.');
-    
     setIsLoading(false);
   };
-
-  return (
-    <div className="min-h-screen bg-background">
+  return <div className="min-h-screen bg-background">
       {/* Header */}
       <header className="sticky top-0 z-50 w-full border-b border-border bg-background/95 backdrop-blur">
         <div className="container max-w-7xl mx-auto flex h-16 items-center justify-between px-4">
@@ -70,7 +71,7 @@ export default function Premium() {
             <div className="h-10 w-10 rounded-xl bg-gradient-to-br from-primary to-accent flex items-center justify-center shadow-lg">
               <Globe className="h-6 w-6 text-primary-foreground" />
             </div>
-            <span className="font-display font-bold text-2xl bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">Lapi</span>
+            <span className="font-display font-bold text-2xl bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">​Www.Tomax.com</span>
           </Link>
           <Link to="/">
             <Button variant="ghost" className="gap-2">
@@ -102,21 +103,10 @@ export default function Premium() {
 
           {/* Pricing Cards */}
           <div className="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto mb-16">
-            {plans.map((plan) => (
-              <Card 
-                key={plan.id}
-                className={`relative cursor-pointer transition-all duration-300 hover:shadow-xl ${
-                  selectedPlan === plan.id 
-                    ? 'border-2 border-primary shadow-lg scale-105' 
-                    : 'border-border hover:border-primary/50'
-                } ${plan.popular ? 'md:-mt-4 md:mb-4' : ''}`}
-                onClick={() => setSelectedPlan(plan.id)}
-              >
-                {plan.popular && (
-                  <Badge className="absolute -top-3 left-1/2 -translate-x-1/2 bg-gradient-to-r from-amber-500 to-orange-500 text-white border-0 px-4">
+            {plans.map(plan => <Card key={plan.id} className={`relative cursor-pointer transition-all duration-300 hover:shadow-xl ${selectedPlan === plan.id ? 'border-2 border-primary shadow-lg scale-105' : 'border-border hover:border-primary/50'} ${plan.popular ? 'md:-mt-4 md:mb-4' : ''}`} onClick={() => setSelectedPlan(plan.id)}>
+                {plan.popular && <Badge className="absolute -top-3 left-1/2 -translate-x-1/2 bg-gradient-to-r from-amber-500 to-orange-500 text-white border-0 px-4">
                     Most Popular
-                  </Badge>
-                )}
+                  </Badge>}
                 <CardHeader className="text-center pb-4">
                   <CardTitle className="text-xl">{plan.name}</CardTitle>
                   <CardDescription>{plan.description}</CardDescription>
@@ -126,22 +116,15 @@ export default function Premium() {
                     <span className="text-5xl font-bold">${plan.price}</span>
                     <span className="text-muted-foreground">/{plan.period}</span>
                   </div>
-                  <Button 
-                    className="w-full gap-2" 
-                    size="lg"
-                    variant={selectedPlan === plan.id ? 'default' : 'outline'}
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      handleSubscribe(plan.id);
-                    }}
-                    disabled={isLoading}
-                  >
+                  <Button className="w-full gap-2" size="lg" variant={selectedPlan === plan.id ? 'default' : 'outline'} onClick={e => {
+                e.stopPropagation();
+                handleSubscribe(plan.id);
+              }} disabled={isLoading}>
                     <Sparkles className="h-4 w-4" />
                     {isLoading ? 'Processing...' : 'Subscribe Now'}
                   </Button>
                 </CardContent>
-              </Card>
-            ))}
+              </Card>)}
           </div>
 
           {/* Features */}
@@ -150,11 +133,7 @@ export default function Premium() {
               Everything You Get with Premium
             </h2>
             <div className="grid md:grid-cols-2 gap-6">
-              {features.map((feature) => (
-                <div 
-                  key={feature.title}
-                  className="flex items-start gap-4 p-6 bg-card border border-border rounded-2xl"
-                >
+              {features.map(feature => <div key={feature.title} className="flex items-start gap-4 p-6 bg-card border border-border rounded-2xl">
                   <div className="h-12 w-12 rounded-xl bg-gradient-to-br from-amber-500 to-orange-500 flex items-center justify-center flex-shrink-0">
                     <feature.icon className="h-6 w-6 text-white" />
                   </div>
@@ -162,8 +141,7 @@ export default function Premium() {
                     <h3 className="font-semibold text-lg mb-1">{feature.title}</h3>
                     <p className="text-muted-foreground">{feature.description}</p>
                   </div>
-                </div>
-              ))}
+                </div>)}
             </div>
           </div>
 
@@ -171,23 +149,12 @@ export default function Premium() {
           <div className="max-w-2xl mx-auto mt-12 p-8 bg-card border border-border rounded-2xl">
             <h3 className="font-semibold text-lg mb-6 text-center">All Premium Features</h3>
             <div className="grid sm:grid-cols-2 gap-4">
-              {[
-                'Unlimited AI Image Generation',
-                'Access to Premium Links',
-                'Ad-Free Browsing',
-                'Early Access to New Features',
-                'Priority Customer Support',
-                'Save Unlimited Favorites',
-                'Create Unlimited Collections',
-                'Exclusive Space & Universe Content',
-              ].map((feature) => (
-                <div key={feature} className="flex items-center gap-2">
+              {['Unlimited AI Image Generation', 'Access to Premium Links', 'Ad-Free Browsing', 'Early Access to New Features', 'Priority Customer Support', 'Save Unlimited Favorites', 'Create Unlimited Collections', 'Exclusive Space & Universe Content'].map(feature => <div key={feature} className="flex items-center gap-2">
                   <div className="h-5 w-5 rounded-full bg-primary/10 flex items-center justify-center">
                     <Check className="h-3 w-3 text-primary" />
                   </div>
                   <span className="text-sm">{feature}</span>
-                </div>
-              ))}
+                </div>)}
             </div>
           </div>
 
@@ -198,6 +165,5 @@ export default function Premium() {
           </div>
         </div>
       </section>
-    </div>
-  );
+    </div>;
 }
