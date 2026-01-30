@@ -42,9 +42,9 @@ serve(async (req) => {
     const { planId } = await req.json();
 
     const plans: Record<string, { amount: number; name: string; duration: string }> = {
-      monthly: { amount: 500, name: 'Monthly Premium', duration: '1 month' },
-      quarterly: { amount: 1000, name: 'Quarterly Premium', duration: '3 months' },
-      yearly: { amount: 2000, name: 'Yearly Premium', duration: '1 year' },
+      monthly: { amount: 5, name: 'Monthly Premium', duration: '1 month' },
+      quarterly: { amount: 10, name: 'Quarterly Premium', duration: '3 months' },
+      yearly: { amount: 20, name: 'Yearly Premium', duration: '1 year' },
     };
 
     const plan = plans[planId];
@@ -63,7 +63,7 @@ serve(async (req) => {
       });
     }
 
-    // Create Razorpay order
+    // Create Razorpay order in USD - Razorpay will convert to local currency
     const orderResponse = await fetch('https://api.razorpay.com/v1/orders', {
       method: 'POST',
       headers: {
@@ -71,8 +71,8 @@ serve(async (req) => {
         'Authorization': 'Basic ' + btoa(`${RAZORPAY_KEY_ID}:${RAZORPAY_KEY_SECRET}`),
       },
       body: JSON.stringify({
-        amount: plan.amount * 100, // Razorpay expects amount in paise
-        currency: 'INR',
+        amount: plan.amount * 100, // Razorpay expects amount in smallest currency unit (cents for USD)
+        currency: 'USD',
         receipt: `prem_${userId.substring(0, 8)}_${Date.now().toString(36)}`,
         notes: {
           user_id: userId,
