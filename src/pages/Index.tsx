@@ -24,7 +24,8 @@ const categories = [{
   color: 'from-violet-500 to-purple-600',
   description: 'AI tools and image generators',
   count: 15,
-  premium: true
+  premium: true,
+  url: 'https://notegpt.io/ai-chat'
 }, {
   id: '3',
   name: 'Games',
@@ -32,7 +33,8 @@ const categories = [{
   icon: Trophy,
   color: 'from-emerald-500 to-green-600',
   description: 'Free online games and MMORPGs',
-  count: 25
+  count: 25,
+  url: 'https://armorgames.com/'
 }, {
   id: '4',
   name: 'Entertainment',
@@ -40,7 +42,8 @@ const categories = [{
   icon: Film,
   color: 'from-pink-500 to-rose-600',
   description: 'Anime, movies, and shows',
-  count: 45
+  count: 45,
+  url: 'https://www.anime-planet.com/'
 }, {
   id: '5',
   name: 'Health & Wellness',
@@ -48,7 +51,8 @@ const categories = [{
   icon: Heart,
   color: 'from-red-500 to-pink-600',
   description: 'Health information and tips',
-  count: 18
+  count: 18,
+  url: 'https://www.mayoclinic.org/'
 }, {
   id: '6',
   name: 'Food & Recipes',
@@ -56,7 +60,8 @@ const categories = [{
   icon: BookOpen,
   color: 'from-orange-500 to-amber-600',
   description: 'Delicious recipes from around the world',
-  count: 30
+  count: 30,
+  url: 'https://www.allrecipes.com/'
 }, {
   id: '7',
   name: 'Knowledge & Studies',
@@ -64,45 +69,79 @@ const categories = [{
   icon: Newspaper,
   color: 'from-cyan-500 to-blue-600',
   description: 'Learn anything with powerful tools',
-  count: 22
+  count: 22,
+  url: 'https://www.wolframalpha.com/'
 }];
 
 // Featured links with real URLs
 const featuredLinks = [{
   id: '1',
   title: 'Solar System Scope',
-  description: 'Interactive 3D encyclopedia of planets and space',
+  description: 'Interactive 3D encyclopedia of planets and space exploration',
   image: 'https://images.unsplash.com/photo-1614732414444-096e5f1122d5?w=400',
   category: 'Space',
   url: 'https://www.solarsystemscope.com/',
   clicks: 45000
 }, {
   id: '2',
-  title: 'NoteGPT AI Chat',
-  description: 'Free AI assistant for notes and conversations',
+  title: 'ChatGPT - OpenAI',
+  description: 'Advanced AI chatbot for conversation and assistance',
   image: 'https://images.unsplash.com/photo-1677442136019-21780ecad995?w=400',
   category: 'AI',
   premium: true,
-  url: 'https://notegpt.io/ai-chat',
-  clicks: 23000
+  url: 'https://chat.openai.com/',
+  clicks: 890000
 }, {
   id: '3',
-  title: 'Free AI Image Generator',
-  description: 'Create stunning AI art for free',
-  image: 'https://images.unsplash.com/photo-1686191128892-3b37add64d8d?w=400',
-  category: 'AI',
-  premium: true,
-  url: 'https://www.ryrob.com/ai-image-generator/',
-  clicks: 18500
-}, {
-  id: '4',
-  title: 'Anime Planet',
-  description: 'Watch anime and read manga for free',
+  title: 'Crunchyroll',
+  description: 'Stream the latest anime series and movies',
   image: 'https://images.unsplash.com/photo-1578632767115-351597cf2477?w=400',
   category: 'Entertainment',
-  url: 'https://www.anime-planet.com/',
-  clicks: 67000
+  url: 'https://www.crunchyroll.com/',
+  clicks: 125000
+}, {
+  id: '4',
+  title: 'Canva Design',
+  description: 'Create stunning graphics, presentations and social media posts',
+  image: 'https://images.unsplash.com/photo-1561070791-2526d30994b5?w=400',
+  category: 'Design',
+  url: 'https://www.canva.com/',
+  clicks: 234000
+}, {
+  id: '5',
+  title: 'Duolingo',
+  description: 'Learn languages for free with gamified lessons',
+  image: 'https://images.unsplash.com/photo-1546410531-bb4caa6b424d?w=400',
+  category: 'Education',
+  url: 'https://www.duolingo.com/',
+  clicks: 456000
+}, {
+  id: '6',
+  title: 'Spotify Web Player',
+  description: 'Stream millions of songs and podcasts',
+  image: 'https://images.unsplash.com/photo-1614680376593-902f74cf0d41?w=400',
+  category: 'Music',
+  url: 'https://open.spotify.com/',
+  clicks: 670000
+}, {
+  id: '7',
+  title: 'NASA Eyes',
+  description: 'Explore the universe with NASA\'s 3D visualization tools',
+  image: 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=400',
+  category: 'Space',
+  premium: true,
+  url: 'https://eyes.nasa.gov/',
+  clicks: 89000
+}, {
+  id: '8',
+  title: 'Khan Academy',
+  description: 'Free world-class education for anyone, anywhere',
+  image: 'https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=400',
+  category: 'Education',
+  url: 'https://www.khanacademy.org/',
+  clicks: 345000
 }];
+
 const trendingLinks = [{
   id: '1',
   title: 'WolframAlpha - Computational Knowledge',
@@ -110,30 +149,51 @@ const trendingLinks = [{
   clicks: 89000
 }, {
   id: '2',
-  title: 'Lucix AI - Image Generator',
-  url: 'https://play.google.com/store/search?q=lucix+ai&c=apps',
-  clicks: 34000,
+  title: 'Midjourney AI Art',
+  url: 'https://www.midjourney.com/',
+  clicks: 234000,
   premium: true
 }, {
   id: '3',
   title: 'AllRecipes - Best Food Recipes',
   url: 'https://www.allrecipes.com/',
-  clicks: 56000
+  clicks: 156000
 }, {
   id: '4',
-  title: 'Mayo Clinic - Health Guide',
-  url: 'https://www.mayoclinic.org/',
-  clicks: 78000
+  title: 'Pinterest - Visual Discovery',
+  url: 'https://www.pinterest.com/',
+  clicks: 278000
 }, {
   id: '5',
-  title: 'RuneScape - Free MMORPG',
-  url: 'https://www.runescape.com/',
-  clicks: 45000
+  title: 'GitHub - Code Repository',
+  url: 'https://github.com/',
+  clicks: 445000
 }, {
   id: '6',
-  title: 'Armor Games - Free Games',
-  url: 'https://armorgames.com/',
-  clicks: 32000
+  title: 'Notion - All-in-One Workspace',
+  url: 'https://www.notion.so/',
+  clicks: 332000
+}, {
+  id: '7',
+  title: 'RuneScape - Free MMORPG',
+  url: 'https://www.runescape.com/',
+  clicks: 145000
+}, {
+  id: '8',
+  title: 'Figma - Design Tool',
+  url: 'https://www.figma.com/',
+  clicks: 289000,
+  premium: true
+}, {
+  id: '9',
+  title: 'Discord - Chat & Communities',
+  url: 'https://discord.com/',
+  clicks: 567000
+}, {
+  id: '10',
+  title: 'Unsplash - Free Photos',
+  url: 'https://unsplash.com/',
+  clicks: 234000
 }];
 export default function Index() {
   const {
