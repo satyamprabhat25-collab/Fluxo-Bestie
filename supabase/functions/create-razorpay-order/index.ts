@@ -73,7 +73,7 @@ serve(async (req) => {
       body: JSON.stringify({
         amount: plan.amount * 100, // Razorpay expects amount in paise
         currency: 'INR',
-        receipt: `premium_${userId}_${Date.now()}`,
+        receipt: `prem_${userId.substring(0, 8)}_${Date.now().toString(36)}`,
         notes: {
           user_id: userId,
           plan_id: planId,
