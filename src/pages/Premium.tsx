@@ -18,7 +18,6 @@ const plans = [{
   id: 'monthly',
   name: 'Monthly',
   price: 5,
-  priceINR: 500,
   period: 'month',
   description: 'Perfect for trying out premium features',
   popular: false
@@ -26,7 +25,6 @@ const plans = [{
   id: 'quarterly',
   name: 'Quarterly',
   price: 10,
-  priceINR: 1000,
   period: '3 months',
   description: 'Save 33% compared to monthly',
   popular: false
@@ -34,7 +32,6 @@ const plans = [{
   id: 'yearly',
   name: 'Yearly',
   price: 20,
-  priceINR: 2000,
   period: 'year',
   description: 'Best value - save 67%!',
   popular: true
@@ -188,7 +185,7 @@ export default function Premium() {
                 </CardHeader>
                 <CardContent className="text-center">
                   <div className="mb-6">
-                    <span className="text-5xl font-bold">₹{plan.priceINR}</span>
+                    <span className="text-5xl font-bold">${plan.price}</span>
                     <span className="text-muted-foreground">/{plan.period}</span>
                   </div>
                   <Button 
