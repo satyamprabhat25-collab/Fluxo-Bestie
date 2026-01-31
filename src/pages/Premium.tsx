@@ -88,6 +88,16 @@ export default function Premium() {
         throw new Error(error.message);
       }
 
+      const plan = plans.find(p => p.id === planId);
+      const getDurationDays = (id: string) => {
+        switch (id) {
+          case 'monthly': return 30;
+          case 'quarterly': return 90;
+          case 'yearly': return 365;
+          default: return 30;
+        }
+      };
+
       const options = {
         key: data.keyId,
         amount: data.amount,
@@ -95,10 +105,37 @@ export default function Premium() {
         name: 'Lapi Premium',
         description: data.planName,
         order_id: data.orderId,
-        handler: function (response: any) {
-          toast.success('Payment successful! Welcome to Premium!');
-          console.log('Payment response:', response);
-          // TODO: Verify payment on backend and update user's premium status
+        handler: async function (response: any) {
+          try {
+            // Save subscription to database
+            const expiresAt = new Date();
+            expiresAt.setDate(expiresAt.getDate() + getDurationDays(planId));
+
+            const { error: subError } = await supabase
+              .from('subscriptions')
+              .insert({
+                user_id: user.id,
+                plan: planId,
+                status: 'active',
+                amount: plan?.price || 0,
+                currency: 'USD',
+                razorpay_order_id: data.orderId,
+                razorpay_payment_id: response.razorpay_payment_id,
+                expires_at: expiresAt.toISOString(),
+              });
+
+            if (subError) {
+              console.error('Error saving subscription:', subError);
+              toast.error('Payment received but failed to activate subscription. Please contact support.');
+            } else {
+              toast.success('Payment successful! Welcome to Premium!');
+              // Reload to update premium status
+              window.location.reload();
+            }
+          } catch (err) {
+            console.error('Error:', err);
+            toast.error('Payment received but failed to activate. Please contact support.');
+          }
         },
         prefill: {
           email: user.email,

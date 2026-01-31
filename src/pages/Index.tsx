@@ -1,10 +1,19 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { BookOpen, Cpu, Trophy, Film, Music, Newspaper, Rocket, Heart, Star, TrendingUp, Crown, ArrowRight, Search, Sparkles, Globe, Zap, ChevronRight } from 'lucide-react';
+import { BookOpen, Cpu, Trophy, Film, Newspaper, Rocket, Heart, Star, TrendingUp, Crown, ArrowRight, Search, Sparkles, Globe, Zap, ChevronRight, Lock } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
 import { useAuth } from '@/contexts/AuthContext';
+import { usePremium } from '@/hooks/usePremium';
+import { PremiumGate } from '@/components/PremiumGate';
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from '@/components/ui/dialog';
 
 // Categories with real links
 const categories = [{
@@ -15,6 +24,7 @@ const categories = [{
   color: 'from-indigo-500 to-purple-600',
   description: 'Explore the cosmos and solar system',
   count: 12,
+  premium: true,
   url: 'https://www.solarsystemscope.com/'
 }, {
   id: '2',
@@ -34,6 +44,7 @@ const categories = [{
   color: 'from-emerald-500 to-green-600',
   description: 'Free online games and MMORPGs',
   count: 25,
+  premium: true,
   url: 'https://armorgames.com/'
 }, {
   id: '4',
@@ -80,6 +91,7 @@ const featuredLinks = [{
   description: 'Interactive 3D encyclopedia of planets and space exploration',
   image: 'https://images.unsplash.com/photo-1614732414444-096e5f1122d5?w=400',
   category: 'Space',
+  premium: true,
   url: 'https://www.solarsystemscope.com/',
   clicks: 45000
 }, {
@@ -172,12 +184,14 @@ const trendingLinks = [{
   id: '6',
   title: 'Notion - All-in-One Workspace',
   url: 'https://www.notion.so/',
-  clicks: 332000
+  clicks: 332000,
+  premium: true
 }, {
   id: '7',
   title: 'RuneScape - Free MMORPG',
   url: 'https://www.runescape.com/',
-  clicks: 145000
+  clicks: 145000,
+  premium: true
 }, {
   id: '8',
   title: 'Figma - Design Tool',
@@ -188,7 +202,8 @@ const trendingLinks = [{
   id: '9',
   title: 'Discord - Chat & Communities',
   url: 'https://discord.com/',
-  clicks: 567000
+  clicks: 567000,
+  premium: true
 }, {
   id: '10',
   title: 'Unsplash - Free Photos',
@@ -196,10 +211,21 @@ const trendingLinks = [{
   clicks: 234000
 }];
 export default function Index() {
-  const {
-    user
-  } = useAuth();
+  const { user } = useAuth();
+  const { isPremium } = usePremium();
   const [searchQuery, setSearchQuery] = useState('');
+  const [premiumModalOpen, setPremiumModalOpen] = useState(false);
+  const [selectedPremiumTitle, setSelectedPremiumTitle] = useState('');
+
+  const handleLinkClick = (e: React.MouseEvent, isPremiumContent: boolean, url: string, title: string) => {
+    if (isPremiumContent && !isPremium) {
+      e.preventDefault();
+      setSelectedPremiumTitle(title);
+      setPremiumModalOpen(true);
+    } else {
+      window.open(url, '_blank', 'noopener,noreferrer');
+    }
+  };
   return <div className="min-h-screen bg-background">
       {/* Navbar */}
       <header className="sticky top-0 z-50 w-full border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
@@ -294,17 +320,25 @@ export default function Index() {
         </div>
 
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-7 gap-4">
-          {categories.map(category => <a key={category.id} href={category.url} target="_blank" rel="noopener noreferrer" className="group relative bg-card border border-border rounded-2xl p-6 hover:shadow-xl hover:border-primary/30 transition-all duration-300 hover:-translate-y-1">
-              {category.premium && <Badge className="absolute -top-2 -right-2 bg-gradient-to-r from-amber-500 to-orange-500 text-white border-0">
-                  <Crown className="h-3 w-3 mr-1" />
+          {categories.map(category => (
+            <div
+              key={category.id}
+              onClick={(e) => handleLinkClick(e, !!category.premium, category.url, category.name)}
+              className="group relative bg-card border border-border rounded-2xl p-6 hover:shadow-xl hover:border-primary/30 transition-all duration-300 hover:-translate-y-1 cursor-pointer"
+            >
+              {category.premium && (
+                <Badge className="absolute -top-2 -right-2 bg-gradient-to-r from-amber-500 to-orange-500 text-white border-0">
+                  <Lock className="h-3 w-3 mr-1" />
                   Premium
-                </Badge>}
+                </Badge>
+              )}
               <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${category.color} flex items-center justify-center mb-4 group-hover:scale-110 transition-transform`}>
                 <category.icon className="h-6 w-6 text-white" />
               </div>
               <h3 className="font-semibold text-sm mb-1 group-hover:text-primary transition-colors">{category.name}</h3>
               <p className="text-xs text-muted-foreground">{category.count} links</p>
-            </a>)}
+            </div>
+          ))}
         </div>
       </section>
 
@@ -327,13 +361,20 @@ export default function Index() {
           </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {featuredLinks.map(link => <a key={link.id} href={link.url} target="_blank" rel="noopener noreferrer" className="group bg-card border border-border rounded-2xl overflow-hidden hover:shadow-xl hover:border-primary/30 transition-all duration-300 block">
+            {featuredLinks.map(link => (
+              <div
+                key={link.id}
+                onClick={(e) => handleLinkClick(e, !!link.premium, link.url, link.title)}
+                className="group bg-card border border-border rounded-2xl overflow-hidden hover:shadow-xl hover:border-primary/30 transition-all duration-300 block cursor-pointer"
+              >
                 <div className="relative aspect-video overflow-hidden">
                   <img src={link.image} alt={link.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
-                  {link.premium && <Badge className="absolute top-3 left-3 bg-gradient-to-r from-amber-500 to-orange-500 text-white border-0">
-                      <Crown className="h-3 w-3 mr-1" />
+                  {link.premium && (
+                    <Badge className="absolute top-3 left-3 bg-gradient-to-r from-amber-500 to-orange-500 text-white border-0">
+                      <Lock className="h-3 w-3 mr-1" />
                       Premium
-                    </Badge>}
+                    </Badge>
+                  )}
                   <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
                 </div>
                 <div className="p-4">
@@ -346,11 +387,13 @@ export default function Index() {
                       {(link.clicks / 1000).toFixed(1)}k clicks
                     </span>
                     <span className="text-sm font-medium text-primary flex items-center gap-1">
+                      {link.premium && !isPremium ? <Lock className="h-3 w-3" /> : null}
                       Visit <ArrowRight className="h-3 w-3" />
                     </span>
                   </div>
                 </div>
-              </a>)}
+              </div>
+            ))}
           </div>
         </div>
       </section>
@@ -368,17 +411,27 @@ export default function Index() {
             </div>
 
             <div className="bg-card border border-border rounded-2xl overflow-hidden">
-              {trendingLinks.map((link, index) => <a key={link.id} href={link.url} target="_blank" rel="noopener noreferrer" className="flex items-center gap-4 p-4 border-b border-border last:border-0 hover:bg-secondary/50 transition-colors">
+              {trendingLinks.map((link, index) => (
+                <div
+                  key={link.id}
+                  onClick={(e) => handleLinkClick(e, !!link.premium, link.url, link.title)}
+                  className="flex items-center gap-4 p-4 border-b border-border last:border-0 hover:bg-secondary/50 transition-colors cursor-pointer"
+                >
                   <span className="text-2xl font-bold text-muted-foreground w-8">{index + 1}</span>
                   <div className="flex-1">
                     <h3 className="font-medium flex items-center gap-2">
                       {link.title}
-                      {link.premium && <Crown className="h-4 w-4 text-amber-500" />}
+                      {link.premium && <Lock className="h-4 w-4 text-amber-500" />}
                     </h3>
                     <span className="text-sm text-muted-foreground">{(link.clicks / 1000).toFixed(1)}k clicks</span>
                   </div>
-                  <ChevronRight className="h-5 w-5 text-muted-foreground" />
-                </a>)}
+                  {link.premium && !isPremium ? (
+                    <Lock className="h-5 w-5 text-amber-500" />
+                  ) : (
+                    <ChevronRight className="h-5 w-5 text-muted-foreground" />
+                  )}
+                </div>
+              ))}
             </div>
           </div>
 
@@ -475,5 +528,66 @@ export default function Index() {
           </div>
         </div>
       </footer>
+
+      {/* Premium Modal */}
+      <Dialog open={premiumModalOpen} onOpenChange={setPremiumModalOpen}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <div className="flex items-center justify-center mb-4">
+              <div className="h-16 w-16 rounded-2xl bg-gradient-to-br from-amber-400 to-orange-500 flex items-center justify-center">
+                <Lock className="h-8 w-8 text-white" />
+              </div>
+            </div>
+            <DialogTitle className="text-center text-xl">
+              Premium Content
+            </DialogTitle>
+            <DialogDescription className="text-center">
+              <span className="font-medium text-foreground">{selectedPremiumTitle}</span> is only available for premium members.
+            </DialogDescription>
+          </DialogHeader>
+
+          <div className="space-y-4 py-4">
+            <div className="bg-secondary/50 rounded-xl p-4 space-y-2">
+              <div className="flex items-center gap-2 text-sm">
+                <Crown className="h-4 w-4 text-amber-500" />
+                <span>Access to all premium links</span>
+              </div>
+              <div className="flex items-center gap-2 text-sm">
+                <Crown className="h-4 w-4 text-amber-500" />
+                <span>AI tools & image generators</span>
+              </div>
+              <div className="flex items-center gap-2 text-sm">
+                <Crown className="h-4 w-4 text-amber-500" />
+                <span>Games, NASA, Discord & more</span>
+              </div>
+            </div>
+
+            <div className="flex flex-col gap-2">
+              {!user ? (
+                <>
+                  <Link to="/auth" onClick={() => setPremiumModalOpen(false)}>
+                    <Button className="w-full" variant="outline">
+                      Sign In
+                    </Button>
+                  </Link>
+                  <Link to="/auth?mode=signup" onClick={() => setPremiumModalOpen(false)}>
+                    <Button className="w-full gap-2">
+                      <Sparkles className="h-4 w-4" />
+                      Sign Up Free
+                    </Button>
+                  </Link>
+                </>
+              ) : (
+                <Link to="/premium" onClick={() => setPremiumModalOpen(false)}>
+                  <Button className="w-full gap-2">
+                    <Crown className="h-4 w-4" />
+                    Get Premium - Starting at $5/month
+                  </Button>
+                </Link>
+              )}
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>;
 }
