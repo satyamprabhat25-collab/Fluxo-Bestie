@@ -6,13 +6,7 @@ import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
 import { useAuth } from '@/contexts/AuthContext';
 import { usePremium } from '@/hooks/usePremium';
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-} from '@/components/ui/dialog';
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 
 // Categories with real links - More categories added
 const categories = [{
@@ -439,14 +433,16 @@ const productivityLinks = [{
   icon: '🎨',
   premium: true
 }];
-
 export default function Index() {
-  const { user } = useAuth();
-  const { isPremium } = usePremium();
+  const {
+    user
+  } = useAuth();
+  const {
+    isPremium
+  } = usePremium();
   const [searchQuery, setSearchQuery] = useState('');
   const [premiumModalOpen, setPremiumModalOpen] = useState(false);
   const [selectedPremiumTitle, setSelectedPremiumTitle] = useState('');
-
   const handleLinkClick = (e: React.MouseEvent, isPremiumContent: boolean, url: string, title: string) => {
     if (isPremiumContent && !isPremium) {
       e.preventDefault();
@@ -456,9 +452,7 @@ export default function Index() {
       window.open(url, '_blank', 'noopener,noreferrer');
     }
   };
-
-  return (
-    <div className="min-h-screen bg-background">
+  return <div className="min-h-screen bg-background">
       {/* Navbar */}
       <header className="sticky top-0 z-50 w-full border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
         <div className="container max-w-7xl mx-auto flex h-20 items-center justify-between px-4 py-3">
@@ -482,17 +476,14 @@ export default function Index() {
           </div>
 
           <div className="flex items-center gap-4">
-            {user ? (
-              <>
+            {user ? <>
                 <Link to="/dashboard">
                   <Button variant="outline" size="lg" className="gap-2 rounded-xl">
                     <Crown className="h-5 w-5" />
                     Dashboard
                   </Button>
                 </Link>
-              </>
-            ) : (
-              <>
+              </> : <>
                 <Link to="/auth">
                   <Button variant="ghost" size="lg">Sign in</Button>
                 </Link>
@@ -502,8 +493,7 @@ export default function Index() {
                     Join Free
                   </Button>
                 </Link>
-              </>
-            )}
+              </>}
           </div>
         </div>
       </header>
@@ -518,8 +508,12 @@ export default function Index() {
         
         {/* Floating Elements */}
         <div className="absolute top-20 left-10 w-20 h-20 rounded-full bg-gradient-to-br from-primary/30 to-accent/30 blur-2xl animate-pulse" />
-        <div className="absolute bottom-40 right-20 w-32 h-32 rounded-full bg-gradient-to-br from-accent/20 to-primary/20 blur-3xl animate-pulse" style={{ animationDelay: '1s' }} />
-        <div className="absolute top-1/2 left-1/4 w-16 h-16 rounded-full bg-gradient-to-br from-amber-500/20 to-orange-500/20 blur-xl animate-bounce" style={{ animationDelay: '0.5s' }} />
+        <div className="absolute bottom-40 right-20 w-32 h-32 rounded-full bg-gradient-to-br from-accent/20 to-primary/20 blur-3xl animate-pulse" style={{
+        animationDelay: '1s'
+      }} />
+        <div className="absolute top-1/2 left-1/4 w-16 h-16 rounded-full bg-gradient-to-br from-amber-500/20 to-orange-500/20 blur-xl animate-bounce" style={{
+        animationDelay: '0.5s'
+      }} />
         
         <div className="container max-w-7xl mx-auto px-4 py-24 relative">
           <div className="text-center max-w-5xl mx-auto">
@@ -529,11 +523,15 @@ export default function Index() {
                 <Zap className="h-4 w-4 mr-2 text-amber-500" />
                 100+ Premium Websites
               </Badge>
-              <Badge variant="secondary" className="px-5 py-2.5 text-sm font-medium animate-fade-in bg-gradient-to-r from-primary/10 to-accent/10 border-primary/20" style={{ animationDelay: '0.2s' }}>
+              <Badge variant="secondary" className="px-5 py-2.5 text-sm font-medium animate-fade-in bg-gradient-to-r from-primary/10 to-accent/10 border-primary/20" style={{
+              animationDelay: '0.2s'
+            }}>
                 <Users className="h-4 w-4 mr-2 text-primary" />
                 50K+ Active Users
               </Badge>
-              <Badge variant="secondary" className="px-5 py-2.5 text-sm font-medium animate-fade-in bg-gradient-to-r from-emerald-500/10 to-green-500/10 border-emerald-500/20" style={{ animationDelay: '0.4s' }}>
+              <Badge variant="secondary" className="px-5 py-2.5 text-sm font-medium animate-fade-in bg-gradient-to-r from-emerald-500/10 to-green-500/10 border-emerald-500/20" style={{
+              animationDelay: '0.4s'
+            }}>
                 <Star className="h-4 w-4 mr-2 text-emerald-500" />
                 10 Categories
               </Badge>
@@ -546,22 +544,21 @@ export default function Index() {
               </span>
             </h1>
             
-            <p className="text-xl md:text-2xl lg:text-3xl text-muted-foreground mb-12 max-w-4xl mx-auto leading-relaxed animate-fade-in" style={{ animationDelay: '0.3s' }}>
+            <p className="text-xl md:text-2xl lg:text-3xl text-muted-foreground mb-12 max-w-4xl mx-auto leading-relaxed animate-fade-in" style={{
+            animationDelay: '0.3s'
+          }}>
               Your gateway to curated AI tools, games, NASA content, music platforms, dev tools & more.
               <span className="block text-foreground font-semibold mt-2"> One subscription. Unlimited possibilities.</span>
             </p>
 
             {/* Search Bar - HUGE */}
-            <div className="relative max-w-3xl mx-auto mb-14 animate-scale-in" style={{ animationDelay: '0.5s' }}>
+            <div className="relative max-w-3xl mx-auto mb-14 animate-scale-in" style={{
+            animationDelay: '0.5s'
+          }}>
               <div className="absolute -inset-1 bg-gradient-to-r from-primary via-accent to-primary rounded-3xl blur-lg opacity-30" />
               <div className="relative">
                 <Search className="absolute left-6 top-1/2 -translate-y-1/2 h-7 w-7 text-muted-foreground" />
-                <Input 
-                  placeholder="Search AI tools, games, music, dev resources..." 
-                  value={searchQuery} 
-                  onChange={e => setSearchQuery(e.target.value)} 
-                  className="pl-16 pr-36 h-20 text-xl rounded-2xl border-2 border-border focus:border-primary shadow-2xl bg-card" 
-                />
+                <Input placeholder="Search AI tools, games, music, dev resources..." value={searchQuery} onChange={e => setSearchQuery(e.target.value)} className="pl-16 pr-36 h-20 text-xl rounded-2xl border-2 border-border focus:border-primary shadow-2xl bg-card" />
                 <Button className="absolute right-3 top-1/2 -translate-y-1/2 rounded-xl h-14 px-10 text-lg font-semibold" size="lg">
                   <Search className="h-5 w-5 mr-2" />
                   Search
@@ -571,17 +568,28 @@ export default function Index() {
 
             {/* Quick Stats - LARGER */}
             <div className="flex flex-wrap justify-center gap-6 md:gap-12">
-              {[
-                { value: '100+', label: 'Premium Sites', color: 'text-amber-500' },
-                { value: '50K+', label: 'Happy Users', color: 'text-primary' },
-                { value: '10', label: 'Categories', color: 'text-emerald-500' },
-                { value: '24/7', label: 'Access', color: 'text-accent' },
-              ].map((stat, i) => (
-                <div key={stat.label} className="text-center px-6 animate-fade-in" style={{ animationDelay: `${0.6 + i * 0.1}s` }}>
+              {[{
+              value: '100+',
+              label: 'Premium Sites',
+              color: 'text-amber-500'
+            }, {
+              value: '50K+',
+              label: 'Happy Users',
+              color: 'text-primary'
+            }, {
+              value: '10',
+              label: 'Categories',
+              color: 'text-emerald-500'
+            }, {
+              value: '24/7',
+              label: 'Access',
+              color: 'text-accent'
+            }].map((stat, i) => <div key={stat.label} className="text-center px-6 animate-fade-in" style={{
+              animationDelay: `${0.6 + i * 0.1}s`
+            }}>
                   <div className={`text-4xl md:text-5xl font-black ${stat.color}`}>{stat.value}</div>
                   <div className="text-sm md:text-base text-muted-foreground font-medium">{stat.label}</div>
-                </div>
-              ))}
+                </div>)}
             </div>
           </div>
         </div>
@@ -606,27 +614,20 @@ export default function Index() {
         </div>
 
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
-          {categories.map((category, index) => (
-            <div
-              key={category.id}
-              onClick={(e) => handleLinkClick(e, !!category.premium, category.url, category.name)}
-              className="group relative bg-card border border-border rounded-3xl p-6 hover:shadow-2xl hover:border-primary/40 transition-all duration-500 hover:-translate-y-3 cursor-pointer animate-fade-in"
-              style={{ animationDelay: `${index * 0.05}s` }}
-            >
-              {category.premium && (
-                <Badge className="absolute -top-3 -right-3 bg-gradient-to-r from-amber-500 to-orange-500 text-white border-0 shadow-lg px-3 py-1">
+          {categories.map((category, index) => <div key={category.id} onClick={e => handleLinkClick(e, !!category.premium, category.url, category.name)} className="group relative bg-card border border-border rounded-3xl p-6 hover:shadow-2xl hover:border-primary/40 transition-all duration-500 hover:-translate-y-3 cursor-pointer animate-fade-in" style={{
+          animationDelay: `${index * 0.05}s`
+        }}>
+              {category.premium && <Badge className="absolute -top-3 -right-3 bg-gradient-to-r from-amber-500 to-orange-500 text-white border-0 shadow-lg px-3 py-1">
                   <Lock className="h-3 w-3 mr-1" />
                   PRO
-                </Badge>
-              )}
+                </Badge>}
               <div className={`w-16 h-16 rounded-2xl bg-gradient-to-br ${category.color} flex items-center justify-center mb-5 group-hover:scale-110 group-hover:rotate-3 transition-all duration-300 shadow-lg`}>
                 <category.icon className="h-8 w-8 text-white" />
               </div>
               <h3 className="font-bold text-lg mb-1 group-hover:text-primary transition-colors">{category.name}</h3>
               <p className="text-sm text-muted-foreground mb-2">{category.description}</p>
               <span className="text-xs font-medium text-primary">{category.count} links →</span>
-            </div>
-          ))}
+            </div>)}
         </div>
       </section>
 
@@ -649,21 +650,15 @@ export default function Index() {
           </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {featuredLinks.map((link, index) => (
-              <div
-                key={link.id}
-                onClick={(e) => handleLinkClick(e, !!link.premium, link.url, link.title)}
-                className="group bg-card border border-border rounded-3xl overflow-hidden hover:shadow-2xl hover:border-primary/30 transition-all duration-500 hover:-translate-y-2 cursor-pointer animate-fade-in"
-                style={{ animationDelay: `${index * 0.1}s` }}
-              >
+            {featuredLinks.map((link, index) => <div key={link.id} onClick={e => handleLinkClick(e, !!link.premium, link.url, link.title)} className="group bg-card border border-border rounded-3xl overflow-hidden hover:shadow-2xl hover:border-primary/30 transition-all duration-500 hover:-translate-y-2 cursor-pointer animate-fade-in" style={{
+            animationDelay: `${index * 0.1}s`
+          }}>
                 <div className="relative aspect-[16/10] overflow-hidden">
                   <img src={link.image} alt={link.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
-                  {link.premium && (
-                    <Badge className="absolute top-4 left-4 bg-gradient-to-r from-amber-500 to-orange-500 text-white border-0 shadow-lg">
+                  {link.premium && <Badge className="absolute top-4 left-4 bg-gradient-to-r from-amber-500 to-orange-500 text-white border-0 shadow-lg">
                       <Lock className="h-3 w-3 mr-1" />
                       Premium
-                    </Badge>
-                  )}
+                    </Badge>}
                   <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                   <div className="absolute bottom-4 left-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                     <Button size="sm" className="w-full gap-2">
@@ -687,8 +682,7 @@ export default function Index() {
                     </span>
                   </div>
                 </div>
-              </div>
-            ))}
+              </div>)}
           </div>
         </div>
       </section>
@@ -708,20 +702,14 @@ export default function Index() {
               </div>
             </div>
             <div className="grid grid-cols-2 gap-4">
-              {devLinks.map((link) => (
-                <div
-                  key={link.id}
-                  onClick={(e) => handleLinkClick(e, !!link.premium, link.url, link.title)}
-                  className="group bg-card border border-border rounded-2xl p-5 hover:shadow-xl hover:border-primary/30 transition-all duration-300 cursor-pointer"
-                >
+              {devLinks.map(link => <div key={link.id} onClick={e => handleLinkClick(e, !!link.premium, link.url, link.title)} className="group bg-card border border-border rounded-2xl p-5 hover:shadow-xl hover:border-primary/30 transition-all duration-300 cursor-pointer">
                   <div className="flex items-center gap-3 mb-3">
                     <span className="text-2xl">{link.icon}</span>
                     {link.premium && <Lock className="h-4 w-4 text-amber-500" />}
                   </div>
                   <h3 className="font-semibold group-hover:text-primary transition-colors">{link.title}</h3>
                   <p className="text-sm text-muted-foreground">{link.description}</p>
-                </div>
-              ))}
+                </div>)}
             </div>
           </div>
 
@@ -737,20 +725,14 @@ export default function Index() {
               </div>
             </div>
             <div className="grid grid-cols-2 gap-4">
-              {productivityLinks.map((link) => (
-                <div
-                  key={link.id}
-                  onClick={(e) => handleLinkClick(e, !!link.premium, link.url, link.title)}
-                  className="group bg-card border border-border rounded-2xl p-5 hover:shadow-xl hover:border-primary/30 transition-all duration-300 cursor-pointer"
-                >
+              {productivityLinks.map(link => <div key={link.id} onClick={e => handleLinkClick(e, !!link.premium, link.url, link.title)} className="group bg-card border border-border rounded-2xl p-5 hover:shadow-xl hover:border-primary/30 transition-all duration-300 cursor-pointer">
                   <div className="flex items-center gap-3 mb-3">
                     <span className="text-2xl">{link.icon}</span>
                     {link.premium && <Lock className="h-4 w-4 text-amber-500" />}
                   </div>
                   <h3 className="font-semibold group-hover:text-primary transition-colors">{link.title}</h3>
                   <p className="text-sm text-muted-foreground">{link.description}</p>
-                </div>
-              ))}
+                </div>)}
             </div>
           </div>
         </div>
@@ -773,12 +755,7 @@ export default function Index() {
               </div>
 
               <div className="bg-card border border-border rounded-3xl overflow-hidden">
-                {trendingLinks.map((link, index) => (
-                  <div
-                    key={link.id}
-                    onClick={(e) => handleLinkClick(e, !!link.premium, link.url, link.title)}
-                    className="flex items-center gap-5 p-5 border-b border-border last:border-0 hover:bg-secondary/50 transition-colors cursor-pointer group"
-                  >
+                {trendingLinks.map((link, index) => <div key={link.id} onClick={e => handleLinkClick(e, !!link.premium, link.url, link.title)} className="flex items-center gap-5 p-5 border-b border-border last:border-0 hover:bg-secondary/50 transition-colors cursor-pointer group">
                     <span className="text-3xl font-black text-muted-foreground/50 w-10">{index + 1}</span>
                     <div className="flex-1">
                       <h3 className="font-semibold flex items-center gap-2 group-hover:text-primary transition-colors">
@@ -787,13 +764,8 @@ export default function Index() {
                       </h3>
                       <span className="text-sm text-muted-foreground">{(link.clicks / 1000).toFixed(0)}k clicks</span>
                     </div>
-                    {link.premium && !isPremium ? (
-                      <Lock className="h-5 w-5 text-amber-500" />
-                    ) : (
-                      <ChevronRight className="h-5 w-5 text-muted-foreground group-hover:text-primary transition-colors" />
-                    )}
-                  </div>
-                ))}
+                    {link.premium && !isPremium ? <Lock className="h-5 w-5 text-amber-500" /> : <ChevronRight className="h-5 w-5 text-muted-foreground group-hover:text-primary transition-colors" />}
+                  </div>)}
               </div>
             </div>
 
@@ -830,20 +802,12 @@ export default function Index() {
                   </div>
                   
                   <ul className="space-y-4 mb-8">
-                    {[
-                      'All Premium AI Tools',
-                      'NASA & Space Content',
-                      'Dev & Productivity Apps',
-                      'Games & Entertainment',
-                      'Priority Support'
-                    ].map(feature => (
-                      <li key={feature} className="flex items-center gap-3">
+                    {['All Premium AI Tools', 'NASA & Space Content', 'Dev & Productivity Apps', 'Games & Entertainment', 'Priority Support'].map(feature => <li key={feature} className="flex items-center gap-3">
                         <div className="h-6 w-6 rounded-full bg-emerald-500/10 flex items-center justify-center">
                           <Sparkles className="h-3.5 w-3.5 text-emerald-500" />
                         </div>
                         <span className="font-medium">{feature}</span>
-                      </li>
-                    ))}
+                      </li>)}
                   </ul>
                   <Link to="/premium">
                     <Button className="w-full gap-2 h-14 text-lg font-bold rounded-xl shadow-lg shadow-primary/30" size="lg">
@@ -877,13 +841,9 @@ export default function Index() {
           </div>
 
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
-            {premiumExclusiveLinks.map((link, index) => (
-              <div
-                key={link.id}
-                onClick={(e) => handleLinkClick(e, true, link.url, link.title)}
-                className="group bg-card/80 backdrop-blur border border-border rounded-3xl p-7 hover:shadow-2xl hover:border-amber-500/40 transition-all duration-500 cursor-pointer relative overflow-hidden animate-fade-in hover:-translate-y-2"
-                style={{ animationDelay: `${index * 0.1}s` }}
-              >
+            {premiumExclusiveLinks.map((link, index) => <div key={link.id} onClick={e => handleLinkClick(e, true, link.url, link.title)} className="group bg-card/80 backdrop-blur border border-border rounded-3xl p-7 hover:shadow-2xl hover:border-amber-500/40 transition-all duration-500 cursor-pointer relative overflow-hidden animate-fade-in hover:-translate-y-2" style={{
+            animationDelay: `${index * 0.1}s`
+          }}>
                 <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-amber-500/10 to-transparent rounded-bl-full" />
                 <div className="text-5xl mb-5">{link.icon}</div>
                 <Badge variant="outline" className="mb-4 text-xs border-amber-500/30 text-amber-600">{link.category}</Badge>
@@ -893,8 +853,7 @@ export default function Index() {
                   <Lock className="h-4 w-4" />
                   Premium Only
                 </div>
-              </div>
-            ))}
+              </div>)}
           </div>
 
           <div className="text-center mt-14">
@@ -921,12 +880,7 @@ export default function Index() {
         </div>
 
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {musicLinks.map((link) => (
-            <div
-              key={link.id}
-              onClick={(e) => handleLinkClick(e, !!link.premium, link.url, link.title)}
-              className="group bg-card border border-border rounded-2xl p-6 hover:shadow-xl hover:border-emerald-500/30 transition-all duration-300 cursor-pointer"
-            >
+          {musicLinks.map(link => <div key={link.id} onClick={e => handleLinkClick(e, !!link.premium, link.url, link.title)} className="group bg-card border border-border rounded-2xl p-6 hover:shadow-xl hover:border-emerald-500/30 transition-all duration-300 cursor-pointer">
               <div className="flex items-center justify-between mb-4">
                 <span className="text-4xl">{link.icon}</span>
                 {link.premium && <Badge className="bg-amber-500/10 text-amber-500 border-amber-500/20">PRO</Badge>}
@@ -937,8 +891,7 @@ export default function Index() {
                 <TrendingUp className="h-3 w-3" />
                 {(link.clicks / 1000).toFixed(0)}k users
               </span>
-            </div>
-          ))}
+            </div>)}
         </div>
       </section>
 
@@ -997,8 +950,8 @@ export default function Index() {
             <p className="text-muted-foreground">© 2025 Fluxo. All rights reserved.</p>
             <div className="flex items-center gap-2">
               <span className="text-sm text-muted-foreground">Made with</span>
-              <Heart className="h-4 w-4 text-red-500 fill-red-500" />
-              <span className="text-sm text-muted-foreground">for the web</span>
+              <Heart className="h-4 w-4 fill-red-500 text-primary" />
+              <span className="text-sm text-muted-foreground">​And  Spread love    </span>
             </div>
           </div>
         </div>
@@ -1023,17 +976,14 @@ export default function Index() {
 
           <div className="space-y-5 py-4">
             <div className="bg-secondary/50 rounded-2xl p-5 space-y-3">
-              {['Access to all 100+ premium links', 'AI tools & image generators', 'Games, NASA, Discord & more', 'Dev & Productivity tools'].map(feature => (
-                <div key={feature} className="flex items-center gap-3 text-sm">
+              {['Access to all 100+ premium links', 'AI tools & image generators', 'Games, NASA, Discord & more', 'Dev & Productivity tools'].map(feature => <div key={feature} className="flex items-center gap-3 text-sm">
                   <Crown className="h-5 w-5 text-amber-500" />
                   <span>{feature}</span>
-                </div>
-              ))}
+                </div>)}
             </div>
 
             <div className="flex flex-col gap-3">
-              {!user ? (
-                <>
+              {!user ? <>
                   <Link to="/auth" onClick={() => setPremiumModalOpen(false)}>
                     <Button className="w-full h-12" variant="outline">
                       Sign In
@@ -1045,19 +995,15 @@ export default function Index() {
                       Sign Up Free
                     </Button>
                   </Link>
-                </>
-              ) : (
-                <Link to="/premium" onClick={() => setPremiumModalOpen(false)}>
+                </> : <Link to="/premium" onClick={() => setPremiumModalOpen(false)}>
                   <Button className="w-full h-14 gap-2 text-lg font-bold">
                     <Crown className="h-5 w-5" />
                     Get Premium - Starting at $5/month
                   </Button>
-                </Link>
-              )}
+                </Link>}
             </div>
           </div>
         </DialogContent>
       </Dialog>
-    </div>
-  );
+    </div>;
 }
