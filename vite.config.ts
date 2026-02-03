@@ -1,20 +1,17 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react-swc";
 import path from "path";
-import { componentTagger } from "lovable-tagger";
 
 export default defineConfig(({ mode }) => ({
-  // Isse "./" rakhne se assets loading ka error hamesha ke liye khatam ho jata hai
   base: "./", 
-
   server: {
     host: "::",
     port: 8080,
   },
   plugins: [
     react(),
-    mode === "development" && componentTagger(),
-  ].filter(Boolean),
+    // componentTagger() ko yahan se hata diya hai
+  ],
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),
