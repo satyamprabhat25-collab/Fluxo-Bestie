@@ -4,7 +4,7 @@ import path from "path";
 import { componentTagger } from "lovable-tagger";
 
 export default defineConfig(({ mode }) => ({
-  // Isse badal kar "./" kar diya hai taaki assets kahin bhi hon, mil jayein
+  // Isse "./" rakhne se assets loading ka error hamesha ke liye khatam ho jata hai
   base: "./", 
 
   server: {
