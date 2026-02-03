@@ -3,9 +3,10 @@ import react from "@vitejs/plugin-react-swc";
 import path from "path";
 import { componentTagger } from "lovable-tagger";
 
+// https://vitejs.dev/config/
 export default defineConfig(({ mode }) => ({
-  // YE LINE SABSE ZAROORI HAI - Iske bina 404 aayega hi aayega
-  base: "/Fluxo-Bestie/", 
+  // Vercel ke liye base hamesha "/" hona chahiye taaki assets sahi se load hon
+  base: "/", 
 
   server: {
     host: "::",
