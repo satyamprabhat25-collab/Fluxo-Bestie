@@ -1,33 +1,45 @@
-import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import { Crown, Check, Sparkles, ArrowLeft, Zap, Star, Shield, Globe } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { useAuth } from '@/contexts/AuthContext';
+import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
+
+declare global {
+  interface Window {
+    Razorpay: any;
+  }
+}
+
 const plans = [{
   id: 'monthly',
   name: 'Monthly',
-  price: 5,
+  price: 500,
+  priceDisplay: '₹500',
   period: 'month',
   description: 'Perfect for trying out premium features',
   popular: false
 }, {
   id: 'quarterly',
   name: 'Quarterly',
-  price: 10,
+  price: 1000,
+  priceDisplay: '₹1,000',
   period: '3 months',
   description: 'Save 33% compared to monthly',
   popular: false
 }, {
   id: 'yearly',
   name: 'Yearly',
-  price: 20,
+  price: 2000,
+  priceDisplay: '₹2,000',
   period: 'year',
   description: 'Best value - save 67%!',
   popular: true
 }];
+
 const features = [{
   icon: Zap,
   title: 'AI Image Generator',
@@ -45,23 +57,94 @@ const features = [{
   title: 'Early Access',
   description: 'Get new features before everyone else'
 }];
+
 export default function Premium() {
-  const {
-    user
-  } = useAuth();
+  const { user, session } = useAuth();
+  const navigate = useNavigate();
   const [selectedPlan, setSelectedPlan] = useState('yearly');
   const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    // Load Razorpay script
+    const script = document.createElement('script');
+    script.src = 'https://checkout.razorpay.com/v1/checkout.js';
+    script.async = true;
+    document.body.appendChild(script);
+    return () => {
+      document.body.removeChild(script);
+    };
+  }, []);
+
   const handleSubscribe = async (planId: string) => {
     if (!user) {
       toast.error('Please sign in to subscribe');
+      navigate('/auth');
       return;
     }
+
     setIsLoading(true);
 
-    // TODO: Integrate Razorpay here
-    // For now, show a message
-    toast.info('Payment integration coming soon! Razorpay will be integrated.');
-    setIsLoading(false);
+    try {
+      // Create order
+      const { data, error } = await supabase.functions.invoke('create-razorpay-order', {
+        body: { planId },
+      });
+
+      if (error || !data) {
+        throw new Error(error?.message || 'Failed to create order');
+      }
+
+      const options = {
+        key: data.keyId,
+        amount: data.amount,
+        currency: data.currency,
+        name: 'Lapi Premium',
+        description: data.planName,
+        order_id: data.orderId,
+        handler: async function (response: any) {
+          try {
+            // Verify payment
+            const { data: verifyData, error: verifyError } = await supabase.functions.invoke('verify-razorpay-payment', {
+              body: {
+                razorpay_order_id: response.razorpay_order_id,
+                razorpay_payment_id: response.razorpay_payment_id,
+                razorpay_signature: response.razorpay_signature,
+                planId,
+              },
+            });
+
+            if (verifyError) {
+              throw new Error(verifyError.message);
+            }
+
+            toast.success('🎉 Welcome to Premium! Enjoy your exclusive access.');
+            navigate('/dashboard');
+          } catch (err) {
+            console.error('Verification error:', err);
+            toast.error('Payment verification failed. Please contact support.');
+          }
+        },
+        prefill: {
+          email: user.email,
+        },
+        theme: {
+          color: '#f59e0b',
+        },
+        modal: {
+          ondismiss: function () {
+            setIsLoading(false);
+          },
+        },
+      };
+
+      const razorpay = new window.Razorpay(options);
+      razorpay.open();
+    } catch (error) {
+      console.error('Payment error:', error);
+      toast.error('Failed to initiate payment. Please try again.');
+    } finally {
+      setIsLoading(false);
+    }
   };
   return <div className="min-h-screen bg-background">
       {/* Header */}
@@ -113,7 +196,7 @@ export default function Premium() {
                 </CardHeader>
                 <CardContent className="text-center">
                   <div className="mb-6">
-                    <span className="text-5xl font-bold">${plan.price}</span>
+                    <span className="text-5xl font-bold">{plan.priceDisplay}</span>
                     <span className="text-muted-foreground">/{plan.period}</span>
                   </div>
                   <Button className="w-full gap-2" size="lg" variant={selectedPlan === plan.id ? 'default' : 'outline'} onClick={e => {
