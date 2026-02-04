@@ -13,5 +13,5 @@ Allow: /
 User-agent: *
 Allow: /
 
-# Sitemap ka full link niche add karein
-Sitemap: https://satyamprabhat25-collab.github.io/Fluxo-Bestie/sitemap.xml
+# Sitemap link corrected to your Vercel domain
+Sitemap: https://fluxo-bestie.vercel.app/sitemap.xml
