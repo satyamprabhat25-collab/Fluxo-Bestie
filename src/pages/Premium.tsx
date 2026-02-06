@@ -63,15 +63,32 @@ export default function Premium() {
   const navigate = useNavigate();
   const [selectedPlan, setSelectedPlan] = useState('yearly');
   const [isLoading, setIsLoading] = useState(false);
+  const [razorpayLoaded, setRazorpayLoaded] = useState(false);
 
   useEffect(() => {
+    // Check if Razorpay is already loaded
+    if (window.Razorpay) {
+      setRazorpayLoaded(true);
+      return;
+    }
+
     // Load Razorpay script
     const script = document.createElement('script');
     script.src = 'https://checkout.razorpay.com/v1/checkout.js';
     script.async = true;
+    script.onload = () => {
+      setRazorpayLoaded(true);
+    };
+    script.onerror = () => {
+      console.error('Failed to load Razorpay script');
+      toast.error('Payment system failed to load. Please refresh the page.');
+    };
     document.body.appendChild(script);
+    
     return () => {
-      document.body.removeChild(script);
+      if (document.body.contains(script)) {
+        document.body.removeChild(script);
+      }
     };
   }, []);
 
@@ -79,6 +96,11 @@ export default function Premium() {
     if (!user) {
       toast.error('Please sign in to subscribe');
       navigate('/auth');
+      return;
+    }
+
+    if (!razorpayLoaded || !window.Razorpay) {
+      toast.error('Payment system is loading. Please wait a moment and try again.');
       return;
     }
 
@@ -90,8 +112,18 @@ export default function Premium() {
         body: { planId },
       });
 
-      if (error || !data) {
-        throw new Error(error?.message || 'Failed to create order');
+      if (error) {
+        console.error('Order creation error:', error);
+        toast.error(error.message || 'Failed to create order. Please try again.');
+        setIsLoading(false);
+        return;
+      }
+
+      if (!data || !data.orderId) {
+        console.error('Invalid order data:', data);
+        toast.error('Failed to create order. Please try again.');
+        setIsLoading(false);
+        return;
       }
 
       const options = {
@@ -114,7 +146,9 @@ export default function Premium() {
             });
 
             if (verifyError) {
-              throw new Error(verifyError.message);
+              console.error('Verification error:', verifyError);
+              toast.error('Payment verification failed. Please contact support.');
+              return;
             }
 
             toast.success('🎉 Welcome to Premium! Enjoy your exclusive access.');
@@ -138,11 +172,15 @@ export default function Premium() {
       };
 
       const razorpay = new window.Razorpay(options);
+      razorpay.on('payment.failed', function (response: any) {
+        console.error('Payment failed:', response.error);
+        toast.error(response.error.description || 'Payment failed. Please try again.');
+        setIsLoading(false);
+      });
       razorpay.open();
-    } catch (error) {
+    } catch (error: any) {
       console.error('Payment error:', error);
-      toast.error('Failed to initiate payment. Please try again.');
-    } finally {
+      toast.error(error?.message || 'Failed to initiate payment. Please try again.');
       setIsLoading(false);
     }
   };
