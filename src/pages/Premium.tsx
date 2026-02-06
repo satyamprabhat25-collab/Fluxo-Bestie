@@ -168,16 +168,36 @@ export default function Premium() {
           ondismiss: function () {
             setIsLoading(false);
           },
+          escape: true,
+          backdropclose: false,
         },
       };
 
-      const razorpay = new window.Razorpay(options);
-      razorpay.on('payment.failed', function (response: any) {
-        console.error('Payment failed:', response.error);
-        toast.error(response.error.description || 'Payment failed. Please try again.');
+      // Double check Razorpay is available before creating instance
+      if (typeof window.Razorpay !== 'function') {
+        console.error('Razorpay not available as function');
+        toast.error('Payment system not ready. Please refresh and try again.');
         setIsLoading(false);
-      });
-      razorpay.open();
+        return;
+      }
+
+      try {
+        const razorpay = new window.Razorpay(options);
+        razorpay.on('payment.failed', function (response: any) {
+          console.error('Payment failed:', response.error);
+          toast.error(response.error.description || 'Payment failed. Please try again.');
+          setIsLoading(false);
+        });
+        
+        // Small delay to ensure modal can render properly
+        setTimeout(() => {
+          razorpay.open();
+        }, 100);
+      } catch (razorpayError: any) {
+        console.error('Razorpay initialization error:', razorpayError);
+        toast.error('Failed to open payment window. Please try again.');
+        setIsLoading(false);
+      }
     } catch (error: any) {
       console.error('Payment error:', error);
       toast.error(error?.message || 'Failed to initiate payment. Please try again.');
